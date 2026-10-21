@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Календарь и таблица умножения</title>
+</head>
+<body>
+    <div>
+        <button onclick="showPage('calendar')">Календарь</button>
+        <button onclick="showPage('table')">Таблица умножения</button>
+    </div>
+    <hr>
+
+    <div id="calendarPage">
+        <h2 id="monthTitle"></h2>
+        <table border="1" id="calendar"></table>
+    </div>
+
+    <div id="tablePage" style="display:none;">
+        <h2>Таблица умножения от 1 до 10</h2>
+        <table border="1" id="multTable"></table>
+    </div>
+
+    <script>
+        function showPage(page) {
+            document.getElementById('calendarPage').style.display = (page === 'calendar') ? 'block' : 'none';
+            document.getElementById('tablePage').style.display = (page === 'table') ? 'block' : 'none';
+        }
+
+        //Календарь
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = now.getMonth();
+        
+        const monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+                           'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+        
+        document.getElementById('monthTitle').textContent = monthNames[month] + ' ' + year;
+        
+        const firstDay = new Date(year, month, 1);
+        let startDay = firstDay.getDay();
+        if (startDay === 0) startDay = 7;
+        
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        
+        const calTable = document.getElementById('calendar');
+        
+        const headerRow = calTable.insertRow();
+        const dayNames = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+        for (let name of dayNames) {
+            const th = document.createElement('th');
+            th.textContent = name;
+            headerRow.appendChild(th);
+        }
+        
+        let row = calTable.insertRow();
+        for (let i = 1; i < startDay; i++) {
+            row.insertCell();
+        }
+        
+        for (let day = 1; day <= daysInMonth; day++) {
+            const cell = row.insertCell();
+            cell.textContent = day;
+            
+            if ((startDay - 1 + day) % 7 === 0 && day !== daysInMonth) {
+                row = calTable.insertRow();
+            }
+        }
+
+        //Таблица умножения
+        const multTable = document.getElementById('multTable');
+        
+        const multHeaderRow = multTable.insertRow();
+        const emptyCell = multHeaderRow.insertCell();
+        emptyCell.textContent = '×';
+        for (let i = 1; i <= 10; i++) {
+            const th = document.createElement('th');
+            th.textContent = i;
+            multHeaderRow.appendChild(th);
+        }
+        
+        for (let i = 1; i <= 10; i++) {
+            const multRow = multTable.insertRow();
+            const headerCell = document.createElement('th');
+            headerCell.textContent = i;
+            multRow.appendChild(headerCell);
+            
+            for (let j = 1; j <= 10; j++) {
+                const cell = multRow.insertCell();
+                cell.textContent = i * j;
+            }
+        }
+    </script>
+</body>
+</html>
