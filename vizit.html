@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Конструктор визиток</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, Helvetica, sans-serif; background: #d9d9d9; }
+  .app { display: flex; min-height: 100vh; }
+  .editor {
+    width: 470px; background: #fff; padding: 34px 24px; flex-shrink: 0;
+  }
+  .editor h1 { font-size: 15px; font-weight: 600; color: #666; margin-bottom: 26px; }
+  .lbl { display: block; font-size: 12px; color: #9a9a9a; margin: 10px 0 5px; }
+  .tin {
+    width: 230px; padding: 6px 8px; font-size: 13px; color: #333;
+    border: 1px solid #c9c9c9; border-radius: 3px;
+  }
+
+  .ctl-row { display: flex; align-items: center; gap: 9px; margin-top: 5px; }
+  .seg-align { display: flex; }
+  .seg-align button {
+    width: 26px; height: 22px; background: #fff; border: 1px solid #c7c7c7;
+    margin-left: -1px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  }
+
+  .seg-align button:first-child { margin-left: 0; }
+  .seg-align button.active { background: #dcdcdc; }
+  .ic { display: flex; flex-direction: column; gap: 2px; width: 14px; }
+  .ic i { height: 2px; background: #444; }
+  .al-left  i { align-self: flex-start; }
+  .al-center i { align-self: center; }
+  .al-right i { align-self: flex-end; }
+  .ic i:nth-child(2) { width: 10px; }
+  .ic i:nth-child(4) { width: 11px; }
+
+  .seg-size { display: flex; }
+  .seg-size button {
+    padding: 4px 6px; font-size: 10px; color: #555; background: #fff;
+    border: 1px solid #c7c7c7; margin-left: -1px; cursor: pointer;
+  }
+  .seg-size button:first-child { margin-left: 0; }
+  .seg-size button.active { background: #dcdcdc; }
+
+  .swatches { display: flex; gap: 7px; margin: 8px 0 4px; }
+  .swatch {
+    width: 16px; height: 16px; border-radius: 50%; cursor: pointer; border: none;
+  }
+  .swatch.active { background: #fff !important; border: 5px solid; }
+
+  .phone-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .del-phone {
+    border: none; background: none; color: #999; font-size: 15px; cursor: pointer; line-height: 1;
+  }
+  .add-phone {
+    display: inline-flex; align-items: center; gap: 6px; margin: 4px 0 6px;
+    font-size: 12px; color: #a0a0a0; cursor: pointer; user-select: none;
+  }
+  .add-phone .plus {
+    width: 14px; height: 14px; background: #808080; color: #fff; border-radius: 2px;
+    display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold;
+  }
+
+  .chk { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: #808080; margin-left: 12px; }
+  .chk input { accent-color: #808080; width: 15px; height: 15px; }
+
+  .apply-btn {
+    margin-top: 22px; padding: 9px 28px; font-size: 13px; color: #fff;
+    background: #42a5f5; border: none; border-radius: 16px; cursor: pointer;
+  }
+  .apply-btn:hover { background: #1e88e5; }
+
+  .preview {
+    flex: 1; background: #d9d9d9; display: flex; align-items: center; justify-content: center; padding: 40px;
+  }
+  .card {
+    width: 540px; height: 310px; background: #fff; border-radius: 2px;
+    box-shadow: 0 3px 12px rgba(0,0,0,.28); padding: 26px 30px;
+    display: flex; flex-direction: column;
+  }
+  .p-org { font-size: 11px; color: #333; text-align: center; }
+  .p-fio { font-weight: bold; margin-top: 26px; }
+  .p-pos { margin-top: 9px; }
+  .p-contacts { margin-left: 50%; margin-top: 22px; font-size: 12px; color: #555; line-height: 1.9; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="editor">
+    <h1>Конструктор визиток</h1>
+
+    <label class="lbl">Наименование организации</label>
+    <input class="tin" id="inp-org" type="text" value='ООО "Ориентир"'>
+
+    <label class="lbl">Фамилия, имя, отчество</label>
+    <div class="ctl-row">
+      <input class="tin" id="inp-fio" type="text" value="Фёдоров Иван Семенович">
+      <span class="seg-align" data-for="fio">
+        <button data-align="left"   title="По левому краю"><span class="ic al-left"><i></i><i></i><i></i><i></i></span></button>
+        <button data-align="center" title="По центру" class="active"><span class="ic al-center"><i></i><i></i><i></i><i></i></span></button>
+        <button data-align="right"  title="По правому краю"><span class="ic al-right"><i></i><i></i><i></i><i></i></span></button>
+      </span>
+      <span class="seg-size" data-for="fio">
+        <button data-size="24">24px</button>
+        <button data-size="26" class="active">26px</button>
+        <button data-size="28">28px</button>
+      </span>
+    </div>
+    <div class="swatches" data-for="fio">
+      <button class="swatch active" data-color="#000000" style="background:#000000; border-color:#000000;"></button>
+      <button class="swatch" data-color="#4a90e2" style="background:#4a90e2;"></button>
+      <button class="swatch" data-color="#e4405f" style="background:#e4405f;"></button>
+      <button class="swatch" data-color="#008000" style="background:#008000;"></button>
+      <button class="swatch" data-color="#d4a017" style="background:#d4a017;"></button>
+      <button class="swatch" data-color="#d000d0" style="background:#d000d0;"></button>
+    </div>
+
+    <label class="lbl">Должность</label>
+    <div class="ctl-row">
+      <input class="tin" id="inp-pos" type="text" value="Менеджер по развитию">
+      <span class="seg-align" data-for="pos">
+        <button data-align="left"   title="По левому краю"><span class="ic al-left"><i></i><i></i><i></i><i></i></span></button>
+        <button data-align="center" title="По центру" class="active"><span class="ic al-center"><i></i><i></i><i></i><i></i></span></button>
+        <button data-align="right"  title="По правому краю"><span class="ic al-right"><i></i><i></i><i></i><i></i></span></button>
+      </span>
+      <span class="seg-size" data-for="pos">
+        <button data-size="14">14px</button>
+        <button data-size="16" class="active">16px</button>
+        <button data-size="18">18px</button>
+      </span>
+    </div>
+    <div class="swatches" data-for="pos">
+      <button class="swatch active" data-color="#666666" style="background:#666666; border-color:#666666;"></button>
+      <button class="swatch" data-color="#000000" style="background:#000000;"></button>
+      <button class="swatch" data-color="#404040" style="background:#404040;"></button>
+      <button class="swatch" data-color="#999999" style="background:#999999;"></button>
+      <button class="swatch" data-color="#bdbdbd" style="background:#bdbdbd;"></button>
+      <button class="swatch" data-color="#dddddd" style="background:#dddddd;"></button>
+    </div>
+
+    <label class="lbl">Телефон</label>
+    <div id="phones">
+      <div class="phone-row"><input class="tin phone-input" type="tel" value="8 (999) 123-45-67"></div>
+    </div>
+    <span class="add-phone" id="addPhone"><span class="plus">+</span> Добавить еще один телефон</span>
+
+    <label class="lbl">E-mail</label>
+    <div class="ctl-row">
+      <input class="tin" id="inp-email" type="email" value="fedorov.is@orientir.org">
+      <label class="chk"><input type="checkbox" id="chk-email" checked> Отображать</label>
+    </div>
+
+    <label class="lbl">Адрес</label>
+    <div class="ctl-row">
+      <input class="tin" id="inp-address" type="text" value="Иркутск, Байкальская, 421, оф. 12">
+      <label class="chk"><input type="checkbox" id="chk-address" checked> Отображать</label>
+    </div>
+
+    <button class="apply-btn" id="applyBtn">Применить</button>
+  </div>
+
+  <div class="preview">
+    <div class="card">
+      <div class="p-org" id="p-org"></div>
+      <div class="p-fio" id="p-fio"></div>
+      <div class="p-pos" id="p-pos"></div>
+      <div class="p-contacts" id="p-contacts"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  document.querySelectorAll('.seg-align, .seg-size, .swatches').forEach(group => {
+    group.addEventListener('click', e => {
+      const btn = e.target.closest('button');
+      if (!btn || !group.contains(btn)) return;
+      group.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      if (btn.classList.contains('swatch')) btn.style.borderColor = btn.dataset.color;
+    });
+  });
+
+  document.getElementById('addPhone').addEventListener('click', () => {
+    const row = document.createElement('div');
+    row.className = 'phone-row';
+    row.innerHTML = '<input class="tin phone-input" type="tel" value="">' +
+                    '<button class="del-phone" title="Удалить">&#10005;</button>';
+    document.getElementById('phones').appendChild(row);
+  });
+  document.getElementById('phones').addEventListener('click', e => {
+    if (e.target.classList.contains('del-phone')) e.target.closest('.phone-row').remove();
+  });
+
+  const getVal = (group, sel, attr) =>
+    document.querySelector(`[data-for="${group}"] ${sel}.active`)?.getAttribute(attr);
+
+  function apply() {
+    document.getElementById('p-org').textContent = document.getElementById('inp-org').value;
+    const fio = document.getElementById('p-fio');
+    fio.textContent = document.getElementById('inp-fio').value;
+    fio.style.fontSize = getVal('fio', '[data-size]', 'data-size') + 'px';
+    fio.style.textAlign = getVal('fio', '[data-align]', 'data-align');
+    fio.style.color = getVal('fio', '.swatch', 'data-color');
+
+    const pos = document.getElementById('p-pos');
+    pos.textContent = document.getElementById('inp-pos').value;
+    pos.style.fontSize = getVal('pos', '[data-size]', 'data-size') + 'px';
+    pos.style.textAlign = getVal('pos', '[data-align]', 'data-align');
+    pos.style.color = getVal('pos', '.swatch', 'data-color');
+
+    const contacts = document.getElementById('p-contacts');
+    contacts.innerHTML = '';
+    const addLine = text => {
+      if (!text) return;
+      const d = document.createElement('div');
+      d.textContent = text;
+      contacts.appendChild(d);
+    };
+    document.querySelectorAll('.phone-input').forEach(i => addLine(i.value.trim()));
+    if (document.getElementById('chk-email').checked) addLine(document.getElementById('inp-email').value.trim());
+    if (document.getElementById('chk-address').checked) addLine(document.getElementById('inp-address').value.trim());
+  }
+
+  document.getElementById('applyBtn').addEventListener('click', apply);
+  apply();
+</script>
+</body>
+</html>
